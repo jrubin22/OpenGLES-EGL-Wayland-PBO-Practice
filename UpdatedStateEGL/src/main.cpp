@@ -16,10 +16,17 @@
 
 
 //GLES, EGL, WL includes
-#include <GL/glu.h>
+
+
+
+#include <EGL/egl.h>
 #include <GLES3/gl32.h>
 #include <GLES3/gl3ext.h>
-#include <EGL/egl.h>
+#include <GLES2/gl2ext.h>
+
+#include <GL/glu.h>
+
+
 #include <wayland-client.h>
 #include <wayland-egl.h>
 #include <wayland-cursor.h>
@@ -142,6 +149,8 @@ int main(int argc, char **argv)
 
     // get OpenGL extensions
     glExtension& ext = glExtension::getInstance();
+    ext.printExtensions();
+
     //pboSupported = ext.isSupported("GL_ARB_pixel_buffer_object");
     pboSupported = true;
     if(pboSupported)
@@ -310,12 +319,21 @@ void initEGLDisplay(EGLNativeDisplayType nativeDisplay, EGLNativeWindowType nati
         EGL_GREEN_SIZE, 8,
         EGL_BLUE_SIZE, 8,
         EGL_ALPHA_SIZE, 8,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT,
         EGL_NONE
     };
+    /*EGLint config_attribs2[] = {
+        EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
+        EGL_RED_SIZE, 8,
+        EGL_GREEN_SIZE, 8,
+        EGL_BLUE_SIZE, 8,
+        EGL_ALPHA_SIZE, 8,
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT,
+        EGL_NONE
+    };*/
 
     const EGLint context_attribs[] = {
-        EGL_CONTEXT_CLIENT_VERSION, 2,
+        EGL_CONTEXT_CLIENT_VERSION, 3,
         EGL_NONE
     };
 
@@ -326,6 +344,7 @@ void initEGLDisplay(EGLNativeDisplayType nativeDisplay, EGLNativeWindowType nati
     assert(initialized == EGL_TRUE);
 
     EGLConfig configs[1];
+    //EGLConfig configs2[1];
 
     eglChooseConfig(*eglDisp, config_attribs, configs, 1, &number_of_config);
     assert(number_of_config);
@@ -334,9 +353,48 @@ void initEGLDisplay(EGLNativeDisplayType nativeDisplay, EGLNativeWindowType nati
     // Create Surface with selected translation configuration
     *eglSurf = eglCreateWindowSurface(*eglDisp, configs[0], nativeWindow, NULL);
     assert(*eglSurf != EGL_NO_SURFACE);
+    switch( eglGetError())
+    {
+        case EGL_SUCCESS:
+            std::cout<<"NO ERROR"<<std::endl;
+            break;
+        case EGL_BAD_MATCH:
+            std::cout<<"ERROR IS: EGL_BAD_MATCH"<<std::endl;
+        break;
+        case EGL_BAD_NATIVE_WINDOW:
+            std::cout<<"ERROR IS: EGL_BAD_NATIVE_WINDOW"<<std::endl;
+        break;
+
+        case EGL_BAD_ALLOC:
+            std::cout<<"ERROR IS: EGL_BAD_ALLOC"<<std::endl;
+        break;
+    }
 
     EGLBoolean makeCurrent = eglMakeCurrent(*eglDisp, *eglSurf, *eglSurf, eglContext);
     assert(makeCurrent == EGL_TRUE);
+    std::cout<<"Make Current Error Check is: ";
+    switch( eglGetError())
+    {
+        case EGL_SUCCESS:
+            std::cout<<"NO ERROR"<<std::endl;
+            break;
+        case EGL_BAD_MATCH:
+            std::cout<<"ERROR IS: EGL_BAD_MATCH"<<std::endl;
+        break;
+        case EGL_BAD_NATIVE_WINDOW:
+            std::cout<<"ERROR IS: EGL_BAD_NATIVE_WINDOW"<<std::endl;
+        break;
+
+        case EGL_BAD_ALLOC:
+            std::cout<<"ERROR IS: EGL_BAD_ALLOC"<<std::endl;
+        break;
+    }
+
+   /* eglChooseConfig(*eglDisp, config_attribs2, configs2, 1, &number_of_config);
+    assert(number_of_config);
+    EGLContext eglcontext2 = eglCreateContext(*eglDisp, configs2[0], EGL_NO_CONTEXT,context_attribs);
+    */
+
 }
 
 

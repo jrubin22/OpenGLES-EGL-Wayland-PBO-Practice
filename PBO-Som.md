@@ -41,3 +41,30 @@
 		* add clearshared mem after while loop exits
 		* comment out all glutCB functions -> need to go back and add functionality for the changePBO mode
 		* comment out displayCB function, and create new displayUpdate function to call inside main while loop, change glut calls to equivalent egl calls.  Comment out all timer calls -> will go back to try replacing these with egl timer calls
+
+
+
+#### Possible PBO fixes
+
+- PBO Config in EGL
+- Add more error detection using EGL -> adding in eglGetError with case statements to check error codes being thrown if any
+
+- Going to try on host machine, adding new findGL to make on x86 machine
+	- need to get weston working on host machine -> will see if this helps
+	- install weston on host machine
+	- change weston.sh to work on x86_64 -> opens a weston window inside my desktop, can't get it to work yet with my hdmi, need to figure out connector issues.  "No active connector"
+
+- Nevermind to above point, not important to get host machine working with wayland - weston
+
+
+#### Path to isolate and fix problems
+
+- Wayland display front end and working with openglES
+
+- Start from base state -> change paths in makefile in new Base
+
+- Error Handling Contuation for egl display
+
+- Weston Configurations looking for GLES
+
+- Periodic reality checks
