@@ -12,7 +12,7 @@ GL_LIB_PATH=/usr/lib/aarch64-linux-gnu
 GLHEADER   := $(shell find -L $(GL_HEADER_PATH) -name gl.h -print 2>/dev/null)
 GLUHEADER  := $(shell find -L $(GL_HEADER_PATH) -name glu.h -print 2>/dev/null)
 GLES3HEADER := $(shell find -L $(GLES3_HEADER_PATH) -name gl32.h -print 2>/dev/null)
-GLES3HEADER := $(shell find -L $(GLES3_HEADER_PATH) -name gl3ext.h -print 2>/dev/null)
+GLES3EXTHEADER := $(shell find -L $(GLES3_HEADER_PATH) -name gl3ext.h -print 2>/dev/null)
 EGLHEADER := $(shell find -L $(EGL_HEADER_PATH) -name egl.h -print 2>/dev/null)
 WAYLANDCLIENTHEADER := $(shell find -L $(WAYLAND_HEADER_PATH) -name wayland-client.h -print 2>/dev/null)
 WAYLANDCURSORHEADER := $(shell find -L $(WAYLAND_HEADER_PATH) -name wayland-cursor.h -print 2>/dev/null)
@@ -37,6 +37,13 @@ ifeq ("$(GLES3HEADER)","")
 else
     $(info INFO - gl32.h found at $(GLES3HEADER))
 endif
+
+ifeq ("$(GLES3EXTHEADER)","")
+    $(error ERROR - gl3ext.h not found)
+else
+    $(info INFO - gl3ext.h found at $(GLES3HEADER))
+endif
+
 
 ifeq ("$(EGLHEADER)","")
     $(error ERROR - egl.h not found)

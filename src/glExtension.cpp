@@ -490,6 +490,19 @@ bool glExtension::isSupported(const std::string& ext)
     return false;
 }
 
+void glExtension::printExtensions()
+{
+	std::vector<std::string>::const_iterator iter = this->extensions.begin();
+	std::vector<std::string>::const_iterator endIter = this->extensions.end();
+	while (iter != endIter)
+	{
+		std::cout << "Extension: "<< *iter<< std::endl;
+		iter++;
+	}
+
+}
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

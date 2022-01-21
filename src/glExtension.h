@@ -61,6 +61,8 @@ public:
     bool isSupported(const std::string& extStr);        // check if a extension is available
     const std::vector<std::string>& getExtensions();
 
+    void printExtensions();
+
 private:
     glExtension();                                      // prevent calling ctor
     glExtension(const glExtension& rhs);                // no implementation
