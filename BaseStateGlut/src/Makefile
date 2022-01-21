@@ -21,7 +21,7 @@ include $(SRC_DIR)/findGL.mk
 # TARGET_OS ?= $(HOST_OS)
 # include $(SRC_DIR)/findgllib.mk
 
-LIB = -lglut -lGLU -lGL -lm
+LIB = -lglut -lGLU -lm -lEGL -lGLESv2 #-lGL
 LDFLAGS =
 
 INC_RELEASE = $(INC)

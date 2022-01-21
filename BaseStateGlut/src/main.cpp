@@ -14,6 +14,12 @@
 #include "glExtension.h"                        // glInfo struct
 #include <GL/glut.h>
 
+
+#include <EGL/egl.h>
+#include <GLES3/gl32.h>
+#include <GLES3/gl3ext.h>
+#include <GLES2/gl2ext.h>
+
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -218,7 +224,7 @@ void drawString(const char *str, int x, int y, float color[4], void *font)
     glDisable(GL_LIGHTING);     // need to disable lighting for proper text color
     glDisable(GL_TEXTURE_2D);
 
-    glColor4fv(color);          // set text color
+    //glColor4fv(color);          // set text color
     glRasterPos2i(x, y);        // place text position
 
     // loop all characters in the string
@@ -244,7 +250,7 @@ void drawString3D(const char *str, float pos[3], float color[4], void *font)
     glDisable(GL_LIGHTING);     // need to disable lighting for proper text color
     glDisable(GL_TEXTURE_2D);
 
-    glColor4fv(color);          // set text color
+    //glColor4fv(color);          // set text color
     glRasterPos3fv(pos);        // place text position
 
     // loop all characters in the string
@@ -645,15 +651,25 @@ void displayCB()
     glRotatef(cameraAngleX, 1, 0, 0);   // pitch
     glRotatef(cameraAngleY, 0, 1, 0);   // heading
 
+    /*static GLfloat vertices[] = { -1.0f, -1.0f, 0.0f,
+                            1.0f, -1.0f, 0.0f,
+                            1.0f,  1.0f, 0.0f,
+                           -1.0f,  1.0f, 0.1f
+                        };
+    */
+
+
     // draw a point with texture
     glBindTexture(GL_TEXTURE_2D, textureId);
-    glColor4f(1, 1, 1, 1);
+    ///glColor4f(1, 1, 1, 1);
     glBegin(GL_QUADS);
     glNormal3f(0, 0, 1);
-    glTexCoord2f(0.0f, 0.0f);   glVertex3f(-1.0f, -1.0f, 0.0f);
-    glTexCoord2f(1.0f, 0.0f);   glVertex3f( 1.0f, -1.0f, 0.0f);
-    glTexCoord2f(1.0f, 1.0f);   glVertex3f( 1.0f,  1.0f, 0.0f);
-    glTexCoord2f(0.0f, 1.0f);   glVertex3f(-1.0f,  1.0f, 0.0f);
+    glTexCoord2f(0.0f, 0.0f);   glVertexAttrib3f(0,-1.0f, -1.0f, 0.0f);
+    glTexCoord2f(1.0f, 0.0f);   glVertexAttrib3f(1, 1.0f, -1.0f, 0.0f);
+    glTexCoord2f(1.0f, 1.0f);   glVertexAttrib3f(2, 1.0f,  1.0f, 0.0f);
+    glTexCoord2f(0.0f, 1.0f);   glVertexAttrib3f(3,-1.0f,  1.0f, 0.0f);
+    //glVertexAttrib4f(0, 3, GL_FLOAT, GL_FALSE, 0, vertices );
+    ///glEnableVertexAttribArray(0);
     glEnd();
 
     // unbind texture
