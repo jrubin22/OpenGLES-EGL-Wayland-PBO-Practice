@@ -61,7 +61,20 @@
 
 - Wayland display front end and working with openglES
 
-- Start from base state -> change paths in makefile in new Base
+- Start from base state -> change paths in makefile in new Base -> Some functions used in openGL aren't working in GLES
+	* in displayCB, glVertex3f to glVertexAttrib3f
+	* in displayCB, glNormal3f comment out for now
+	* in drawString glPushAttrib and glPopAttrib
+	* glRasterPos3fv in drawstring3d
+	* in initLights, glLightfv
+	* glPushMatrix
+	* glMatrixMode in showinfo
+	* glPopMatrix used a lot
+	* glMapBuffer -> glMapBufferRange used in displayCB
+	* glLoadIdentity in showTransferRate
+	* gltranslatef and glrotatef in displayCB
+	* glBegin, glEnd -> stackoverflow says to use VBO instead of begin and end
+	* glPolygonMode in keyboardCB
 
 - Error Handling Contuation for egl display
 

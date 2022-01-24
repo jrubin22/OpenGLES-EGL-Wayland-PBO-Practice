@@ -80,6 +80,10 @@ endif
 
 # All tests pass so include head path
 INC += -I$(GL_HEADER_PATH)
+INC += -I$(GLES3_HEADER_PATH)
+INC += -I$(GLES2_HEADER_PATH)
+INC += -I$(EGL_HEADER_PATH)
+INC += -I$(WAYLAND_HEADER_PATH)
 
 
 GLLIB   := $(shell find -L $(GL_LIB_PATH) -name libGL.so  -print 2>/dev/null)
